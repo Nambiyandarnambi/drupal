@@ -3,14 +3,16 @@ services:
 
   drupal:
     container_name: drupal
-    image: drupal:9
+    image: drupal-local
+    build:
+      context: ./drupal
     depends_on:
       - mariadb
       # - redis
     ports:
       - "3081:80"
     volumes:
-      - ./drupal:/var/www/html
+      - ./files:/var/www/html/sites/default/files/
     restart: always
     networks:
       - local
