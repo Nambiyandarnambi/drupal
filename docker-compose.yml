@@ -1,0 +1,40 @@
+version: "3"
+services:
+
+  drupal:
+    container_name: drupal
+    image: drupal:9
+    depends_on:
+      - mariadb
+      # - redis
+    ports:
+      - "3081:80"
+    volumes:
+      - ./drupal:/var/www/html
+    restart: always
+    networks:
+      - local
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: PASSWORD
+      MYSQL_USER: APPDBUSER
+      MYSQL_PASSWORD: APPDBPASSWORD
+      MYSQL_DATABASE: APPDBNAME
+    volumes:
+      - ./mysql:/var/lib/mysql
+    restart: always
+    networks:
+      - local
+
+  # redis:
+  #   container_name: redis
+  #   image: redis:latest
+  #   restart: always
+  #   networks:
+  #     - local
+
+networks:
+  local:
